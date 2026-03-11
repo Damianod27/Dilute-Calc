@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🧪 DiluteCalc</title>
     
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='white'/><text y='75' x='10' font-size='70'>🧪</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='white'/><text y='75' x='15' font-size='60'>🖩</text></svg>">
     
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -26,22 +26,33 @@
         }
         .custom-arrow-btn:active { background-color: #3f3f46; }
         .input-box { transition: box-shadow 0.2s ease; }
+        
+        .lang-btn { cursor: pointer; transition: all 0.2s; }
+        .lang-btn.active { color: white; font-weight: bold; }
+        .lang-btn.inactive { color: rgba(255,255,255,0.5); }
     </style>
 </head>
 <body class="bg-zinc-950 text-white min-h-screen flex items-center justify-center p-6">
     <div class="max-w-md w-full bg-zinc-900 rounded-3xl shadow-2xl overflow-hidden border border-zinc-800">
         
-        <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 px-8 py-6 flex items-center gap-4">
-            <div class="w-14 h-14 bg-white/20 backdrop-blur-2xl rounded-2xl flex items-center justify-center text-4xl shrink-0">🧪</div>
-            <div>
-                <h1 class="text-3xl font-bold tracking-tight">DiluteCalc</h1>
-                <p class="text-emerald-100 text-sm -mt-1">Chemical Dilution Calculator V1.2</p>
+        <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 px-4 py-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-white/20 backdrop-blur-2xl rounded-2xl flex items-center justify-center text-4xl shrink-0">🧪</div>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-tight">DiluteCalc</h1>
+                    <p id="sub-header" class="text-emerald-100 text-sm -mt-1">Chemical Dilution Calculator</p>
+                </div>
+            </div>
+            <div class="flex gap-2 text-xs uppercase tracking-widest bg-black/10 p-2 rounded-xl">
+                <span id="btn-en" class="lang-btn active" onclick="setLang('en')">EN</span>
+                <span class="opacity-30">|</span>
+                <span id="btn-pl" class="lang-btn inactive" onclick="setLang('pl')">PL</span>
             </div>
         </div>
 
-        <div class="px-8 py-7">
+        <div class="px-4 py-7">
             <div>
-                <label class="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-1 uppercase font-bold">
+                <label id="label-volume" class="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-1 uppercase font-bold">
                     <span class="text-amber-400 text-xl">📏</span> Total solution volume
                 </label>
                 <div class="input-box relative flex items-center bg-zinc-800 border border-zinc-700 focus-within:shadow-[0_0_0_3px_#10b981] rounded-3xl h-[84px] px-7">
@@ -55,14 +66,14 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                         </div>
-                        <div class="text-zinc-400 font-medium text-2xl w-[80px] text-right uppercase font-bold">liters</div>
+                        <div id="unit-liters" class="text-zinc-400 font-medium text-2xl w-[80px] text-right uppercase font-bold">liters</div>
                     </div>
                 </div>
-                <p class="text-xs text-zinc-500 mt-2 pl-2">How many liters of ready solution do you want to make?</p>
+                <p id="desc-volume" class="text-xs text-zinc-500 mt-2 pl-2">How many liters of ready solution do you want to make?</p>
             </div>
 
             <div class="mt-4">
-                <label class="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-1 uppercase font-bold">
+                <label id="label-ratio" class="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-1 uppercase font-bold">
                     <span class="text-cyan-400 text-xl">🧪</span> Dilution ratio
                 </label>
                 <div class="input-box relative flex items-center bg-zinc-800 border border-zinc-700 focus-within:shadow-[0_0_0_3px_#10b981] rounded-3xl h-[84px] px-7">
@@ -77,14 +88,14 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                         </div>
-                        <div class="text-zinc-400 font-medium text-xl leading-tight w-[80px] text-center uppercase font-bold">parts<br>water</div>
+                        <div id="unit-parts" class="text-zinc-400 font-medium text-xl leading-tight w-[80px] text-center uppercase font-bold">parts<br>water</div>
                     </div>
                 </div>
-                <p class="text-xs text-zinc-500 mt-2 pl-2">Example: 1:15 = 1 part product + 15 parts water</p>
+                <p id="desc-ratio" class="text-xs text-zinc-500 mt-2 pl-2">Example: 1:15 = 1 part product + 15 parts water</p>
             </div>
 
             <div class="mt-4">
-                <label class="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2 uppercase font-bold">
+                <label id="label-ready" class="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2 uppercase font-bold">
                     <span class="text-emerald-400 text-xl">✨</span> Ready Solution
                 </label>
                 <div id="result" class="result-box bg-zinc-950 border border-zinc-700 rounded-3xl px-6 pt-6 pb-5 space-y-5">
@@ -92,7 +103,7 @@
                         <div class="flex items-center gap-4">
                             <div class="w-9 h-9 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-2xl">🧴</div>
                             <div>
-                                <div class="text-xs text-zinc-400 tracking-wider uppercase font-bold">Product</div>
+                                <div id="res-product" class="text-xs text-zinc-400 tracking-wider uppercase font-bold">Product</div>
                                 <div id="product" class="text-4xl font-bold text-emerald-400">62.50</div>
                             </div>
                         </div>
@@ -102,7 +113,7 @@
                         <div class="flex items-center gap-4">
                             <div class="w-9 h-9 bg-cyan-500/10 rounded-2xl flex items-center justify-center text-2xl">💧</div>
                             <div>
-                                <div class="text-xs text-zinc-400 tracking-wider uppercase font-bold">Water</div>
+                                <div id="res-water" class="text-xs text-zinc-400 tracking-wider uppercase font-bold">Water</div>
                                 <div id="water" class="text-4xl font-bold text-cyan-400">937.50</div>
                             </div>
                         </div>
@@ -110,14 +121,14 @@
                     </div>
                     <div class="pt-5 border-t border-zinc-700 flex justify-center">
                         <div class="inline-flex items-center gap-2 bg-zinc-900 px-6 py-2 rounded-3xl text-base">
-                            <span class="text-emerald-400 font-bold">✓</span> <span class="text-zinc-400">Total:</span>
+                            <span class="text-emerald-400 font-bold">✓</span> <span id="res-total-label" class="text-zinc-400">Total:</span>
                             <span id="total" class="font-semibold text-white">1000 ml</span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="mt-5 pt-4 border-t border-zinc-800/50 text-center">
+            <div class="mt-5 pt-7 border-t border-zinc-800/50 text-center">
                 <p class="text-[10px] text-zinc-600 uppercase tracking-[0.3em] font-bold">
                     Powered by <a href="mailto:dilutecalc@icloud.com" class="text-zinc-400 hover:text-white transition-colors">Storm Design</a>
                 </p>
@@ -126,6 +137,55 @@
     </div>
 
     <script>
+        const translations = {
+            en: {
+                subHeader: "Chemical Dilution Calculator",
+                labelVolume: "Total solution volume",
+                unitLiters: "liters",
+                descVolume: "How many liters of ready solution do you want to make?",
+                labelRatio: "Dilution ratio",
+                unitParts: "parts<br>water",
+                descRatio: "Example: 1:15 = 1 part product + 15 parts water",
+                labelReady: "Ready Solution",
+                resProduct: "Product",
+                resWater: "Water",
+                resTotalLabel: "Total:"
+            },
+            pl: {
+                subHeader: "Kalkulator Stężenia Chemii",
+                labelVolume: "Całkowita objętość roztworu",
+                unitLiters: "litry",
+                descVolume: "Ile litrów gotowego roztworu chcesz zrobić?",
+                labelRatio: "Stosunek rozcieńczenia",
+                unitParts: "części<br>wody",
+                descRatio: "Przykład: 1:15 = 1 część chemii + 15 części wody",
+                labelReady: "Gotowy Roztwór",
+                resProduct: "Produkt",
+                resWater: "Woda",
+                resTotalLabel: "Razem:"
+            }
+        };
+
+        function setLang(lang) {
+            document.documentElement.lang = lang;
+            const t = translations[lang];
+            
+            document.getElementById('sub-header').textContent = t.subHeader;
+            document.getElementById('label-volume').innerHTML = `<span class="text-amber-400 text-xl">📏</span> ${t.labelVolume}`;
+            document.getElementById('unit-liters').textContent = t.unitLiters;
+            document.getElementById('desc-volume').textContent = t.descVolume;
+            document.getElementById('label-ratio').innerHTML = `<span class="text-cyan-400 text-xl">🧪</span> ${t.labelRatio}`;
+            document.getElementById('unit-parts').innerHTML = t.unitParts;
+            document.getElementById('desc-ratio').textContent = t.descRatio;
+            document.getElementById('label-ready').innerHTML = `<span class="text-emerald-400 text-xl">✨</span> ${t.labelReady}`;
+            document.getElementById('res-product').textContent = t.resProduct;
+            document.getElementById('res-water').textContent = t.resWater;
+            document.getElementById('res-total-label').textContent = t.resTotalLabel;
+
+            document.getElementById('btn-en').className = `lang-btn ${lang === 'en' ? 'active' : 'inactive'}`;
+            document.getElementById('btn-pl').className = `lang-btn ${lang === 'pl' ? 'active' : 'inactive'}`;
+        }
+
         function zmien(id, krok, min) {
             const el = document.getElementById(id);
             let val = (parseFloat(el.value) || min) + krok;
@@ -150,7 +210,11 @@
 
         document.getElementById('volume').addEventListener('input', oblicz);
         document.getElementById('ratio').addEventListener('input', oblicz);
-        window.onload = oblicz;
+        
+        window.onload = () => {
+            setLang('en');
+            oblicz();
+        };
     </script>
 </body>
 </html>
